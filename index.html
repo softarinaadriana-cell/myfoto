@@ -2,59 +2,85 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b1020">
-  <meta name="description" content="Personal To-Do List dan Daily Planner yang membantu anda fokus pada perkara paling penting.">
+  <meta name="description" content="Focus — personal to-do list moden dengan dashboard, calendar, priority dan progress harian.">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.svg">
-  <title>Focus — Daily Planner</title>
+  <title>Focus — Personal To-Do</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-shell">
-  <header class="topbar">
-    <div class="brand"><div class="brand-mark">✓</div><div><strong>Focus</strong><span>Daily Planner</span></div></div>
-    <button id="installBtn" class="icon-button hidden" aria-label="Pasang aplikasi">⇩</button>
-  </header>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">✓</div><div><strong>Focus</strong><span>Personal Planner</span></div></div>
+      <div class="sidebar-section">
+        <p>MENU</p>
+        <button class="nav-link active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+        <button class="nav-link" data-view="tasks"><span>✓</span>All Tasks <b id="sidePending">0</b></button>
+        <button class="nav-link" data-view="calendar"><span>▦</span>Calendar</button>
+      </div>
+      <div class="sidebar-section">
+        <p>FILTER</p>
+        <button class="nav-link" data-view="today"><span>◷</span>Today</button>
+        <button class="nav-link" data-view="upcoming"><span>→</span>Upcoming</button>
+        <button class="nav-link" data-view="completed"><span>✓</span>Completed</button>
+      </div>
+      <div class="sidebar-calendar card-lite">
+        <div class="mini-head"><strong id="miniMonth">Bulan</strong><span id="miniYear">2026</span></div>
+        <div class="mini-week" id="miniWeek"></div>
+        <div class="mini-grid" id="miniGrid"></div>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="nav-link" id="themeToggle"><span>☼</span><span id="themeLabel">Light mode</span></button>
+        <button class="nav-link hidden" id="installBtn"><span>⇩</span>Install app</button>
+      </div>
+    </aside>
 
-  <main>
-    <section id="dashboard" class="view active-view">
-      <div class="greeting"><div><span class="eyebrow">HARI INI</span><h1>Rancang hari yang <span>boleh dibuat.</span></h1><p id="dateText"></p></div><div class="score"><strong id="progressText">0%</strong><span>selesai</span></div></div>
-      <div class="stats"><div><span>BAKI</span><strong id="remaining">0</strong></div><div><span>SELESAI</span><strong id="completedCount">0</strong></div><div><span>MUST DO</span><strong id="mustCount">0</strong></div></div>
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand"><div class="brand-mark">✓</div><strong>Focus</strong></div>
+        <div class="top-actions"><button class="icon-btn" id="mobileTheme" aria-label="Tukar tema">☼</button><button class="avatar">A</button></div>
+      </header>
 
-      <div class="card focus-card"><div class="section-head"><div><span class="kicker">3 PERKARA TERPENTING</span><h2>Fokus utama</h2></div><button class="ghost" data-view="tasks">Lihat semua</button></div><div id="topThree"></div></div>
-      <div class="card add-card"><form id="todoForm"><input id="todoInput" maxlength="160" autocomplete="off" placeholder="Apa yang perlu dibuat?" aria-label="Tugasan baharu"><button type="submit">+ Tambah</button></form><p>Selepas tambah, lengkapkan deadline, masa, keutamaan dan subtugas.</p></div>
-      <div class="card"><div class="section-head"><div><span class="kicker">HARI INI</span><h2>Must / Should / Could</h2></div></div><div id="priorityGroups" class="priority-groups"></div></div>
-    </section>
+      <section id="dashboard" class="view active-view">
+        <div class="hero"><div><span class="eyebrow">PERSONAL PRODUCTIVITY</span><h1>Good Morning! <span>✦</span></h1><p id="todayText">Hari ini</p></div><button class="primary" id="heroAdd">+ New Task</button></div>
+        <div class="stats">
+          <div class="stat-card"><div class="stat-icon purple">✓</div><div><span>Total Tasks</span><strong id="totalStat">0</strong></div></div>
+          <div class="stat-card"><div class="stat-icon green">✓</div><div><span>Completed</span><strong id="completedStat">0</strong></div></div>
+          <div class="stat-card"><div class="stat-icon amber">◷</div><div><span>Pending</span><strong id="pendingStat">0</strong></div></div>
+          <div class="stat-card"><div class="stat-icon red">!</div><div><span>High Priority</span><strong id="highStat">0</strong></div></div>
+        </div>
 
-    <section id="tasks" class="view">
-      <div class="page-title"><div><span class="eyebrow">TASK MANAGER</span><h1>Semua tugasan</h1></div><button id="clearCompleted" class="ghost">Bersihkan</button></div>
-      <div class="card"><div class="filters"><button class="filter active" data-filter="all">Semua</button><button class="filter" data-filter="active">Aktif</button><button class="filter" data-filter="completed">Selesai</button></div><div id="todoList" class="todo-list"></div></div>
-    </section>
+        <div class="dashboard-grid">
+          <div class="main-column">
+            <div class="card progress-card"><div class="card-title"><div><span class="eyebrow">TODAY</span><h2>Daily Progress</h2></div><strong id="progressPercent">0%</strong></div><div class="progress-track"><div id="progressBar"></div></div><div class="progress-foot"><span id="progressLabel">0 of 0 tasks completed</span><span>Keep going ✨</span></div></div>
+            <div class="card"><div class="card-title"><div><span class="eyebrow">PRIORITY</span><h2>Today’s Focus</h2></div><button class="text-btn" data-view="today">View all →</button></div><div id="focusList" class="focus-list"></div></div>
+            <div class="card"><div class="card-title"><div><span class="eyebrow">TASKS</span><h2>Recent Tasks</h2></div><button class="text-btn" data-view="tasks">See all →</button></div><div id="recentList" class="task-list"></div></div>
+          </div>
+          <div class="side-column">
+            <div class="card quick-add"><div class="card-title"><div><span class="eyebrow">QUICK ADD</span><h2>New Task</h2></div></div><form id="quickForm"><input id="quickInput" maxlength="160" placeholder="What needs to be done?" autocomplete="off"><button type="submit">+</button></form><div class="quick-hint">Press Enter to add. You can edit details after.</div></div>
+            <div class="card category-card"><div class="card-title"><div><span class="eyebrow">CATEGORIES</span><h2>By Category</h2></div></div><div id="categoryList"></div></div>
+          </div>
+        </div>
+      </section>
 
-    <section id="scheduleView" class="view">
-      <div class="page-title"><div><span class="eyebrow">TIME BLOCKING</span><h1>Jadual hari ini</h1></div></div>
-      <div class="card"><div class="schedule-note">Jadual ini sengaja mempunyai <b>buffer</b> dan rehat supaya tidak terlalu padat.</div><div id="schedule" class="schedule"></div></div>
-    </section>
+      <section id="tasks" class="view"><div class="page-heading"><div><span class="eyebrow">TASK MANAGER</span><h1>All Tasks</h1><p>Everything you need to get done.</p></div><button class="primary" id="taskAdd">+ New Task</button></div><div class="card"><div class="toolbar"><div class="tabs"><button class="tab active" data-filter="all">All</button><button class="tab" data-filter="today">Today</button><button class="tab" data-filter="upcoming">Upcoming</button><button class="tab" data-filter="completed">Completed</button></div><div class="search"><span>⌕</span><input id="searchInput" placeholder="Search tasks..."></div></div><div id="allTaskList" class="task-list"></div></div></section>
 
-    <section id="reviewView" class="view">
-      <div class="page-title"><div><span class="eyebrow">DAILY REVIEW</span><h1>Tutup hari dengan jelas.</h1></div></div>
-      <div id="reviewContent" class="review-content"></div>
-    </section>
-  </main>
+      <section id="today" class="view"><div class="page-heading"><div><span class="eyebrow">FOCUS</span><h1>Today</h1><p id="todayHeading">Your tasks for today.</p></div><button class="primary" data-action="add">+ New Task</button></div><div class="card"><div id="todayList" class="task-list"></div></div></section>
+      <section id="upcoming" class="view"><div class="page-heading"><div><span class="eyebrow">PLAN AHEAD</span><h1>Upcoming</h1><p>Tasks with a future deadline.</p></div><button class="primary" data-action="add">+ New Task</button></div><div class="card"><div id="upcomingList" class="task-list"></div></div></section>
+      <section id="completed" class="view"><div class="page-heading"><div><span class="eyebrow">DONE</span><h1>Completed</h1><p>A record of what you have finished.</p></div></div><div class="card"><div id="completedList" class="task-list"></div></div></section>
+      <section id="calendar" class="view"><div class="page-heading"><div><span class="eyebrow">SCHEDULE</span><h1>Calendar</h1><p>Select a date to see tasks due that day.</p></div><button class="primary" data-action="add">+ New Task</button></div><div class="calendar-layout"><div class="card calendar-card"><div class="calendar-header"><button class="icon-btn" id="prevMonth">‹</button><div><strong id="calendarMonth">August 2026</strong><span id="calendarYear">2026</span></div><button class="icon-btn" id="nextMonth">›</button></div><div class="calendar-week" id="calendarWeek"></div><div class="calendar-grid" id="calendarGrid"></div></div><div class="card"><div class="card-title"><div><span class="eyebrow">SELECTED DATE</span><h2 id="selectedDateTitle">Today</h2></div></div><div id="selectedDateTasks" class="task-list"></div></div></div></section>
+    </main>
+  </div>
 
-  <nav class="bottom-nav" aria-label="Navigasi utama">
-    <button class="nav-item active" data-view="dashboard"><span>⌂</span>Hari ini</button>
-    <button class="nav-item" data-view="tasks"><span>✓</span>Tugasan</button>
-    <button class="nav-item" data-view="scheduleView"><span>◷</span>Jadual</button>
-    <button class="nav-item" data-view="reviewView"><span>☷</span>Review</button>
-  </nav>
-</div>
+  <nav class="mobile-nav"><button class="active" data-view="dashboard"><span>⌂</span>Home</button><button data-view="tasks"><span>✓</span>Tasks</button><button data-view="calendar"><span>▦</span>Calendar</button><button data-action="add"><span>＋</span>Add</button></nav>
 
-<dialog id="editDialog"><form id="editForm"><div class="dialog-head"><div><span class="kicker">TASK DETAILS</span><h2>Butiran tugasan</h2></div><button type="button" id="closeDialog" class="close">×</button></div><input type="hidden" id="editId"><label>Tugasan<input id="editText" required maxlength="160"></label><div class="form-grid"><label>Kategori<select id="editCategory"><option>Kerja</option><option>Peribadi</option><option>Rumah</option><option>Kewangan</option><option>Kesihatan</option><option>Lain-lain</option></select></label><label>Keutamaan<select id="editPriority"><option value="high">🔴 Tinggi</option><option value="medium">🟡 Sederhana</option><option value="low">🟢 Rendah</option></select></label><label>Deadline<input id="editDeadline" type="datetime-local"></label><label>Anggaran masa<select id="editDuration"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 jam</option><option value="90">1 jam 30 min</option><option value="120">2 jam</option></select></label><label>Mula<input id="editStart" type="time"></label><label>Plan<select id="editPlan"><option value="must">🔥 MUST DO</option><option value="should">⭐ SHOULD DO</option><option value="could">💡 COULD DO</option></select></label></div><label>Subtugas <small>satu setiap baris</small><textarea id="editSubtasks" rows="5" placeholder="Kumpulkan data&#10;Tulis draft&#10;Semak&#10;Hantar"></textarea></label><div class="dialog-actions"><button type="button" id="deleteFromDialog" class="danger">Padam</button><button type="submit" class="primary">Simpan</button></div></form></dialog>
-<script src="script.js"></script>
+  <dialog id="taskDialog"><form id="taskForm"><div class="dialog-head"><div><span class="eyebrow">TASK DETAILS</span><h2 id="dialogTitle">New Task</h2></div><button type="button" class="close" id="closeDialog">×</button></div><input type="hidden" id="taskId"><label>Task name<input id="taskText" required maxlength="160" placeholder="e.g. Complete project proposal"></label><div class="form-grid"><label>Category<select id="taskCategory"><option>Personal</option><option>Work</option><option>Study</option><option>Shopping</option></select></label><label>Priority<select id="taskPriority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label><label>Due date<input id="taskDue" type="date"></label><label>Time<input id="taskTime" type="time"></label></div><div class="dialog-actions"><button type="button" class="danger hidden" id="deleteTask">Delete</button><div><button type="button" class="secondary" id="cancelDialog">Cancel</button><button type="submit" class="primary">Save Task</button></div></div></form></dialog>
+  <script src="script.js"></script>
 </body>
 </html>
