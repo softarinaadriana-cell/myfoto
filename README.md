@@ -1,23 +1,22 @@
 # Focus — Personal To-Do List & Daily Planner
 
-A responsive personal productivity app based on the **Personal To-Do List & Daily Planner** prompt. The app helps turn unstructured tasks into a practical daily plan without overloading the day.
+Aplikasi produktiviti peribadi dalam Bahasa Melayu untuk menukar tugasan yang tidak tersusun kepada pelan harian yang realistik.
 
-## Features
-- Add, complete, edit, and delete tasks
-- Category: Kerja / Peribadi / Rumah / Kewangan / Kesihatan / Lain-lain
-- Priority: 🔴 Tinggi / 🟡 Sederhana / 🟢 Rendah
-- Deadline and estimated duration
-- Optional start time for time-blocking
-- 🔥 MUST DO / ⭐ SHOULD DO / 💡 COULD DO planning
-- Subtasks for large tasks
-- All / Active / Completed filters
-- Daily schedule with buffer and rest blocks
-- Daily Review: completed, pending, move-to-tomorrow, and main achievement
-- Progress indicator
-- Responsive dark UI
-- Data persists locally with `localStorage`
+## Versi aplikasi
+- Dashboard **Hari ini** dengan 3 fokus utama
+- Task Manager dengan filter Semua / Aktif / Selesai
+- Edit tugasan melalui modal: kategori, keutamaan, deadline, tempoh, waktu mula, plan dan subtugas
+- 🔥 MUST DO / ⭐ SHOULD DO / 💡 COULD DO
+- 🔴 Tinggi / 🟡 Sederhana / 🟢 Rendah
+- Time blocking dengan buffer dan rehat
+- Daily Review untuk selesai, belum selesai, pindah ke esok dan pencapaian utama
+- Progress harian
+- Data disimpan dalam `localStorage`
+- **PWA installable** untuk pengalaman seperti aplikasi telefon
+- Service worker untuk cache/offline asas
+- Responsive untuk telefon dan desktop
 
-## Run
-Open `index.html` directly in a browser, or deploy this repository as a static site on Vercel.
+## Jalankan
+Buka `index.html` untuk preview. Untuk pemasangan PWA dan service worker, gunakan hosting HTTPS seperti Vercel.
 
-No backend or database is required; task data stays in the browser.
+Tiada backend atau database diperlukan; data tugasan kekal pada browser pengguna.
