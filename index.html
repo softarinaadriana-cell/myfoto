@@ -1,33 +1,60 @@
 <!doctype html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="Personal To-Do List dan Daily Planner yang membantu anda fokus pada perkara paling penting.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
   <title>Focus — Daily Planner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="shell">
-    <section class="hero"><div><span class="eyebrow">PERSONAL PRODUCTIVITY ASSISTANT</span><h1>Rancang. <span>Fokus.</span> Selesai.</h1><p class="subtitle">Senarai tugasan yang realistik, tersusun dan tidak membebankan.</p></div><div class="date-card"><div id="dayName">ISNIN</div><strong id="today">10 OGOS</strong></div></section>
-    <section class="stats" aria-label="Ringkasan hari ini"><div><span>BAKI</span><strong id="remaining">0</strong></div><div><span>SELESAI</span><strong id="completedCount">0</strong></div><div><span>PROGRESS</span><strong id="progressText">0%</strong></div></section>
-    <section class="app-card" aria-label="Daily planner">
-      <form id="todoForm" class="composer"><input id="todoInput" type="text" maxlength="120" autocomplete="off" placeholder="Contoh: Siapkan laporan client sebelum 5 petang" aria-label="Tugasan baharu" /><button type="submit">Tambah <span>↵</span></button></form>
-      <div class="quick-hint">Isi butiran selepas tambah: kategori, keutamaan, deadline, masa dan subtugas.</div>
-      <div class="toolbar"><div class="filters" role="tablist" aria-label="Penapis tugasan"><button class="filter active" data-filter="all" role="tab">Semua</button><button class="filter" data-filter="active" role="tab">Aktif</button><button class="filter" data-filter="completed" role="tab">Selesai</button></div><button id="clearCompleted" class="text-button">Padam yang selesai</button></div>
-      <div id="todoList" class="todo-list" aria-live="polite"></div>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">✓</div><div><strong>Focus</strong><span>Daily Planner</span></div></div>
+    <button id="installBtn" class="icon-button hidden" aria-label="Pasang aplikasi">⇩</button>
+  </header>
+
+  <main>
+    <section id="dashboard" class="view active-view">
+      <div class="greeting"><div><span class="eyebrow">HARI INI</span><h1>Rancang hari yang <span>boleh dibuat.</span></h1><p id="dateText"></p></div><div class="score"><strong id="progressText">0%</strong><span>selesai</span></div></div>
+      <div class="stats"><div><span>BAKI</span><strong id="remaining">0</strong></div><div><span>SELESAI</span><strong id="completedCount">0</strong></div><div><span>MUST DO</span><strong id="mustCount">0</strong></div></div>
+
+      <div class="card focus-card"><div class="section-head"><div><span class="kicker">3 PERKARA TERPENTING</span><h2>Fokus utama</h2></div><button class="ghost" data-view="tasks">Lihat semua</button></div><div id="topThree"></div></div>
+      <div class="card add-card"><form id="todoForm"><input id="todoInput" maxlength="160" autocomplete="off" placeholder="Apa yang perlu dibuat?" aria-label="Tugasan baharu"><button type="submit">+ Tambah</button></form><p>Selepas tambah, lengkapkan deadline, masa, keutamaan dan subtugas.</p></div>
+      <div class="card"><div class="section-head"><div><span class="kicker">HARI INI</span><h2>Must / Should / Could</h2></div></div><div id="priorityGroups" class="priority-groups"></div></div>
     </section>
-    <section class="planner-grid">
-      <div class="panel"><div class="panel-head"><div><span class="section-kicker">MUST / SHOULD / COULD</span><h2>Fokus hari ini</h2></div><button id="reviewBtn" class="small-button">Daily Review</button></div><div id="priorityGroups" class="priority-groups"></div></div>
-      <div class="panel"><div class="panel-head"><div><span class="section-kicker">TIME BLOCKING</span><h2>Jadual harian</h2></div><span class="badge">Buffer + rehat</span></div><div id="schedule" class="schedule"></div></div>
+
+    <section id="tasks" class="view">
+      <div class="page-title"><div><span class="eyebrow">TASK MANAGER</span><h1>Semua tugasan</h1></div><button id="clearCompleted" class="ghost">Bersihkan</button></div>
+      <div class="card"><div class="filters"><button class="filter active" data-filter="all">Semua</button><button class="filter" data-filter="active">Aktif</button><button class="filter" data-filter="completed">Selesai</button></div><div id="todoList" class="todo-list"></div></div>
     </section>
-    <section class="progress-card"><div class="progress-copy"><span>PROGRESS HARI INI</span><strong id="progressLabel">0% complete</strong></div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div></section>
-    <section id="reviewPanel" class="review-panel hidden"></section>
+
+    <section id="scheduleView" class="view">
+      <div class="page-title"><div><span class="eyebrow">TIME BLOCKING</span><h1>Jadual hari ini</h1></div></div>
+      <div class="card"><div class="schedule-note">Jadual ini sengaja mempunyai <b>buffer</b> dan rehat supaya tidak terlalu padat.</div><div id="schedule" class="schedule"></div></div>
+    </section>
+
+    <section id="reviewView" class="view">
+      <div class="page-title"><div><span class="eyebrow">DAILY REVIEW</span><h1>Tutup hari dengan jelas.</h1></div></div>
+      <div id="reviewContent" class="review-content"></div>
+    </section>
   </main>
-  <dialog id="editDialog" class="edit-dialog"><form method="dialog" id="editForm"><div class="dialog-head"><div><span class="section-kicker">TASK DETAILS</span><h2>Lengkapkan tugasan</h2></div><button value="cancel" class="close">×</button></div><input type="hidden" id="editId"><label>Tugasan<input id="editText" required maxlength="120"></label><div class="form-grid"><label>Kategori<select id="editCategory"><option>Kerja</option><option>Peribadi</option><option>Rumah</option><option>Kewangan</option><option>Kesihatan</option><option>Lain-lain</option></select></label><label>Keutamaan<select id="editPriority"><option value="high">🔴 Tinggi</option><option value="medium">🟡 Sederhana</option><option value="low">🟢 Rendah</option></select></label><label>Deadline<input id="editDeadline" type="datetime-local"></label><label>Anggaran masa<select id="editDuration"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 jam</option><option value="90">1 jam 30 min</option><option value="120">2 jam</option></select></label><label>Slot mula<input id="editStart" type="time"></label><label>Plan<select id="editPlan"><option value="must">🔥 MUST DO</option><option value="should">⭐ SHOULD DO</option><option value="could">💡 COULD DO</option></select></label></div><label>Subtugas <span class="label-note">satu setiap baris</span><textarea id="editSubtasks" rows="4" placeholder="Kumpulkan data&#10;Tulis draft&#10;Semak&#10;Hantar"></textarea></label><div class="dialog-actions"><button type="button" id="deleteFromDialog" class="danger-button">Padam</button><button type="submit" value="save" class="save-button">Simpan</button></div></form></dialog>
-  <script src="script.js"></script>
+
+  <nav class="bottom-nav" aria-label="Navigasi utama">
+    <button class="nav-item active" data-view="dashboard"><span>⌂</span>Hari ini</button>
+    <button class="nav-item" data-view="tasks"><span>✓</span>Tugasan</button>
+    <button class="nav-item" data-view="scheduleView"><span>◷</span>Jadual</button>
+    <button class="nav-item" data-view="reviewView"><span>☷</span>Review</button>
+  </nav>
+</div>
+
+<dialog id="editDialog"><form id="editForm"><div class="dialog-head"><div><span class="kicker">TASK DETAILS</span><h2>Butiran tugasan</h2></div><button type="button" id="closeDialog" class="close">×</button></div><input type="hidden" id="editId"><label>Tugasan<input id="editText" required maxlength="160"></label><div class="form-grid"><label>Kategori<select id="editCategory"><option>Kerja</option><option>Peribadi</option><option>Rumah</option><option>Kewangan</option><option>Kesihatan</option><option>Lain-lain</option></select></label><label>Keutamaan<select id="editPriority"><option value="high">🔴 Tinggi</option><option value="medium">🟡 Sederhana</option><option value="low">🟢 Rendah</option></select></label><label>Deadline<input id="editDeadline" type="datetime-local"></label><label>Anggaran masa<select id="editDuration"><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 jam</option><option value="90">1 jam 30 min</option><option value="120">2 jam</option></select></label><label>Mula<input id="editStart" type="time"></label><label>Plan<select id="editPlan"><option value="must">🔥 MUST DO</option><option value="should">⭐ SHOULD DO</option><option value="could">💡 COULD DO</option></select></label></div><label>Subtugas <small>satu setiap baris</small><textarea id="editSubtasks" rows="5" placeholder="Kumpulkan data&#10;Tulis draft&#10;Semak&#10;Hantar"></textarea></label><div class="dialog-actions"><button type="button" id="deleteFromDialog" class="danger">Padam</button><button type="submit" class="primary">Simpan</button></div></form></dialog>
+<script src="script.js"></script>
 </body>
 </html>
