@@ -1,0 +1,11 @@
+{
+  "name":"Focus — Daily Planner",
+  "short_name":"Focus",
+  "description":"Personal To-Do List dan Daily Planner.",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#070b16",
+  "theme_color":"#0b1020",
+  "lang":"ms",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
