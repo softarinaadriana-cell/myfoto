@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Focus — To-Do List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">DAILY FOCUS</span>
+        <h1>Get things <span>done.</span></h1>
+        <p class="subtitle">A simple, calm space for everything on your list.</p>
+      </div>
+      <div class="date-card">
+        <div id="dayName">MONDAY</div>
+        <strong id="today">10 AUG</strong>
+      </div>
+    </section>
+
+    <section class="app-card" aria-label="To-do list">
+      <form id="todoForm" class="composer">
+        <input id="todoInput" type="text" maxlength="120" autocomplete="off" placeholder="What needs to be done?" aria-label="New task" />
+        <button type="submit" aria-label="Add task">Add task <span>↵</span></button>
+      </form>
+
+      <div class="toolbar">
+        <div class="filters" role="tablist" aria-label="Task filters">
+          <button class="filter active" data-filter="all" role="tab">All</button>
+          <button class="filter" data-filter="active" role="tab">Active</button>
+          <button class="filter" data-filter="completed" role="tab">Completed</button>
+        </div>
+        <button id="clearCompleted" class="text-button">Clear completed</button>
+      </div>
+
+      <div id="todoList" class="todo-list" aria-live="polite"></div>
+
+      <div class="footer">
+        <span><strong id="remaining">0</strong> tasks remaining</span>
+        <span class="tip">Tip: press <kbd>Enter</kbd> to add</span>
+      </div>
+    </section>
+
+    <section class="progress-card">
+      <div class="progress-copy">
+        <span>YOUR PROGRESS</span>
+        <strong id="progressText">0% complete</strong>
+      </div>
+      <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
